@@ -1,0 +1,26 @@
+{
+	"company_name":"Optipro ERP",
+	"app_title":"Task Manager",
+	"locale":"en",
+	"system_version":"0.0.1",
+	"base_url":"http:\/\/172.16.6.140:9090\/internal_task_manager\/",
+	"default_db_driver":"sap_hana",
+	"connection_parameter":{
+		"ms_sql_srv":{
+			"server_name":"",
+			"username":"",
+			"password":"",
+			"pointing_db":""
+		},
+		"sap_hana":{
+			"driver":"HDBODBC32",
+			"server_name":"172.16.6.191",
+			"port":"30015",
+			"username":"SYSTEM",
+			"password":"Su99ort@731",
+			"pointing_db":"OPTIPRO_APS"
+		}
+	},
+	"theme":"material",
+	"installed":1
+}

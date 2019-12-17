@@ -1,0 +1,23 @@
+{
+    "status": [{
+        "code": "1",
+        "key": "active",
+        "description": "Active"
+    },
+    {
+        "code": "2",
+        "key": "inactive",
+        "description": "Inactive"
+    },
+    {
+        "code": "3",
+        "key": "cancelled",
+        "description": "Cancelled"
+    },
+    {
+        "code": "4",
+        "key": "on_hold",
+        "description": "On Hold"
+    }
+]
+}

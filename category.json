@@ -1,0 +1,83 @@
+{
+	"category": [{
+			"code": "1",
+			"key": "bug_fix",
+			"description": "Bug Fixing"
+		},
+		{
+			"code": "2",
+			"key": "new_functionality",
+			"description": "New Functionality/ Enhancements"
+		},
+		{
+			"code": "3",
+			"key": "discussion_meetings",
+			"description": "Discussions/ Meetings"
+		},
+		{
+			"code": "4",
+			"key": "documentation",
+			"description": "Documentation"
+		},
+		{
+			"code": "5",
+			"key": "adhoc_miscellaneous",
+			"description": "Adhoc/ Miscellaneous"
+		},
+		{
+			"code": "6",
+			"key": "bug_verification",
+			"description": "Bug Verification"
+		},
+		{
+			"code": "7",
+			"key": "testing_test_case_write",
+			"description": "Testing  / Test-case writing"
+		},
+		{
+			"code": "8",
+			"key": "setup_installation",
+			"description": "Setup Installation"
+		},
+		{
+			"code": "9",
+			"key": "setup_creation_testing",
+			"description": "Setup creation and testing"
+		},
+		{
+			"code": "10",
+			"key": "troubleshoot",
+			"description": "Troubleshoot"
+		},
+		{
+			"code": "11",
+			"key": "report_writing",
+			"description": "Report writing"
+		},
+		{
+			"code": "12",
+			"key": "db_compare",
+			"description": "DB Compare"
+		},
+		{
+			"code": "13",
+			"key": "client_customisation",
+			"description": "Client Customisation"
+		},
+		{
+			"code": "14",
+			"key": "issue_verification",
+			"description": "Issue Verification"
+		},
+		{
+			"code": "15",
+			"key": "rework_rewrite",
+			"description": "Rewrite / Rework"
+		},
+		{
+			"code": "16",
+			"key": "research_development",
+			"description": "Research & Development / Self Study"
+		}
+	]
+}
