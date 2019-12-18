@@ -193,9 +193,15 @@ function complete_task_query($task_id){
 	WHERE OPER_ID='$task_id'
 	";	
 
+		$complete_child_task = "UPDATE \"OPTM_APS_PRODOPER\" 
+	SET PROGRESS = 1, 	STATUS = 1 
+	WHERE PARENT_OPR_ID='$task_id'
+	";	
+
 	return array(
 		"select_task" => $select_task,
 		"complete_task" => $complete_task,
+		"complete_child_task" => $complete_child_task,
 	);
 }
 

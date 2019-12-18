@@ -407,7 +407,7 @@ function basic_request_call(file_or_link, callback){
     if(service_name !== undefined){
       task_action = "?action=" + service_name;
     } else {
-      task_action = "?action=save_update";  
+      task_action = "?action=save_update&is_split=0";  
     }
     
     if(particular_task == 1){
@@ -603,7 +603,7 @@ function custom_lightbox_fill_data(task, task_id){
   $("#task_project_select").html(projects).val(opr_project);
   $("#task_resource_select").html(resources).val(opr_resource);
   $("#task_completion_progress").val(opr_progress*100);
-    $(".task_progress_label_value").html((parseFloat(opr_progress)*100));
+  $(".task_progress_label_value").html((parseFloat(opr_progress)*100));
   $("#operation_delay_reason").val(opr_delay_reason);
 
 
@@ -765,8 +765,26 @@ function complete_select_task(id){
       function(response) {
         hide_loading_toast(); 
         show_toast(response.success, string_replacer($_LANG[response.message], "{__TASK_ID__}", response.task_id));
-        gantt.getTask(id).progress = 1;
+        // update task progress
+        var taskdetail = gantt.getTask(id);
+        taskdetail.progress = 1;
         gantt.updateTask(id);
+
+        // update task progress
+        if(taskdetail.type == "project"){
+          var all_task_list = gantt.getTaskByTime();
+          all_task_list.filter(function(obj){
+            return obj.parent_opr_id == id
+          });
+
+          if(all_task_list.length > 0){
+            for(var i=0; i < all_task_list.length; i++){
+              gantt.getTask(all_task_list[i].id).progress = 1;
+              gantt.updateTask(all_task_list[i].id);
+            }
+          }
+        }
+
         detail_layout_call();
       }).error(function() {
         hide_loading_toast(); 
@@ -1366,9 +1384,8 @@ function left_matrix_configuration(hide_element){
       if(item.type == "project") {
         return "";
       } else {
-        console.log(item.id, " - - ", typeof item.planned_start_date);
-        if(typeof item.planned_start_date === 'string' && typeof item.planned_end_date === 'string'){
-          return get_date_diff_hours(get_dat_time_from_string(item.planned_start_date,1 ), get_dat_time_from_string(item.planned_end_date, 1));
+        if(typeof item.planned_start_date === "string" && typeof item.planned_end_date === "string"){
+          return get_date_diff_hours_str(item.planned_start_date, item.planned_end_date);
         } else {
           return get_date_diff_hours(item.planned_start_date, item.planned_end_date);
         }
@@ -1790,6 +1807,13 @@ function get_date_diff_hours(start_date, end_date){
   var date1 = start_date;
   var date2 = end_date;
   var hours = Math.abs(date1 - date2) / 36e5;
+  return hours;
+}
+
+function get_date_diff_hours_str(start_date, end_date){
+  var date1 = start_date;
+  var date2 = end_date;
+  var hours = Math.abs(new Date(date1) - new Date(date2)) / 36e5;
   return hours;
 }
 

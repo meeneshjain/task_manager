@@ -291,7 +291,7 @@ function split_task_only(){
     } 
   });
 
-  save_all_tasks();
+  save_all_tasks("", 0, "save_update&is_split=1");
  // show_toast("custom_success", "Success");
  right_click_task = [];
 }, default_pause_short);
@@ -665,7 +665,7 @@ function split_task_insert(){
   });
 
 
-  save_all_tasks();
+   save_all_tasks("", 0, "save_update&is_split=1");
  // show_toast("custom_success", "Success");
  right_click_task = [];
 }, default_pause_short);

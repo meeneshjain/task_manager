@@ -1803,7 +1803,7 @@ $('.only_date_picker').on('apply.daterangepicker', function(ev, picker) {
 
 
 $('#popup_planned_date').on('apply.daterangepicker', function(ev, picker) {
-	var dformat  = 'DD-MM-YYYY hh:mm';
+	var dformat  = 'DD-MM-YYYY HH:mm';
 	$('#popup_actual_date').data('daterangepicker').setStartDate(picker.startDate.format(dformat));
   	$('#popup_actual_date').data('daterangepicker').setEndDate(picker.endDate.format(dformat));
 });

@@ -395,7 +395,6 @@ function get_operations($presentation_type = NULL, $work_center = NULL){
 	
 }
 
-
 function save_update_task(){
 	global $conn;
 	$post_data  = $_POST;
@@ -466,8 +465,8 @@ function save_update_task(){
 
 
 
-				$tasks['text'] = (isset($tasks['text']) && $tasks['text']!="") ? utf8_decode($tasks['text']) : "";
-				$tasks['description'] = (isset($tasks['description']) && $tasks['description']!="") ? utf8_decode($tasks['description']) : '';
+				$tasks['text'] = (isset($tasks['text']) && $tasks['text']!="") ? utf8_decode(escape_character($tasks['text'])) : "";
+				$tasks['description'] = (isset($tasks['description']) && $tasks['description']!="") ? utf8_decode(escape_character($tasks['description'])) : '';
 
 				$tasks['parent_opr_id'] = (isset($tasks['parent_opr_id']) && $tasks['parent_opr_id']!="") ? $tasks['parent_opr_id'] : "0";
 				$tasks['priority'] = (isset($tasks['priority']) && $tasks['priority']!="") ? $tasks['priority'] : (int)99;
@@ -500,29 +499,32 @@ function save_update_task(){
 
 					// generate lnk 
 					if($tasks['operation_type'] !== 'project'){
-						$pred_task_id = 0;
-						$connection_type = 0;
-					 	$check_link_query = "SELECT TOP 1 OPER_ID as \"id\", PARENT_OPR_ID FROM \"OPTM_APS_PRODOPER\" WHERE PARENT_OPR_ID = '$parent_task' AND OPER_ID != '$insert_id' AND REF_ID = '$reference_id' ORDER BY OPER_ID DESC ";
-					 	// echo $check_link_query; die;
-						$check_link_res = $conn->query($check_link_query);
-						if($check_link_res->rowCount()){
-							$sch_data = $check_link_res->fetch(PDO::FETCH_ASSOC);
-							$pred_task_id = $sch_data['id'];
-							$connection_type = 0;
-						} else {
-							$pred_task_id = $parent_task;
-							$connection_type  = 1;
-						}
-						$succ_id = $insert_id; 
-						
-						$link_query = "( '$reference_id', '$pred_task_id', '$succ_id', '$connection_type' )";
-						$query = insert_aps_links($link_query);
-						$result = $conn->query($query);
-						$get_opr_link_query = get_last_opr_link_id();
-						$link_result = $conn->query($get_opr_link_query);
-						$insert_link_id = $link_result->fetch(PDO::FETCH_ASSOC)['id'];
 
-						$links_new_soure_target["link-".$insert_link_id] = array("source" => $pred_task_id, "target" => $succ_id, "type"=> $connection_type, "is_new" => 1, "link_id" => "link-".$insert_link_id);	 
+					 if(isset($_GET['is_split']) && $_GET['is_split']==0){
+							$pred_task_id = 0;
+							$connection_type = 0;
+						 	$check_link_query = "SELECT TOP 1 OPER_ID as \"id\", PARENT_OPR_ID FROM \"OPTM_APS_PRODOPER\" WHERE PARENT_OPR_ID = '$parent_task' AND OPER_ID != '$insert_id' AND REF_ID = '$reference_id' ORDER BY OPER_ID DESC ";
+						 	// echo $check_link_query; die;
+							$check_link_res = $conn->query($check_link_query);
+							if($check_link_res->rowCount()){
+								$sch_data = $check_link_res->fetch(PDO::FETCH_ASSOC);
+								$pred_task_id = $sch_data['id'];
+								$connection_type = 0;
+							} else {
+								$pred_task_id = $parent_task;
+								$connection_type  = 1;
+							}
+							$succ_id = $insert_id; 
+							
+							$link_query = "( '$reference_id', '$pred_task_id', '$succ_id', '$connection_type' )";
+							$query = insert_aps_links($link_query);
+							$result = $conn->query($query);
+							$get_opr_link_query = get_last_opr_link_id();
+							$link_result = $conn->query($get_opr_link_query);
+							$insert_link_id = $link_result->fetch(PDO::FETCH_ASSOC)['id'];
+
+							$links_new_soure_target["link-".$insert_link_id] = array("source" => $pred_task_id, "target" => $succ_id, "type"=> $connection_type, "is_new" => 1, "link_id" => "link-".$insert_link_id);	 
+					 	}
 					}
 
 
@@ -774,6 +776,8 @@ function complete_selected_task(){
 		$complete_task_res = $conn->query($completed_task_query['complete_task']);
 
 		if($complete_task_res->rowCount() > 0){
+			$complete_child_task_res = $conn->query($completed_task_query['complete_child_task']);
+
 			$update_ref = update_reference_status_query("draft", $reference_id);
 			$update_ref_res = $conn->query($update_ref);
 			$output = array(

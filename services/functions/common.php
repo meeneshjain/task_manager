@@ -238,5 +238,11 @@ function log_data($application_path,$action, $data){
 	file_put_contents( $file_name,"\n\n".json_encode($log_data). "\n\n",FILE_APPEND);
 }
 
+function escape_character($str){
+	$str = str_replace(array("'"), "", $str);
+	return $str;
+}
+
+
 
 ?>
